@@ -5,7 +5,7 @@ import {
   Interaction,
 } from "../../deps.ts";
 
-export interface Command {
+export type Command = {
   /** The name of this command. */
   name: string;
   /** What does this command do? */
@@ -19,3 +19,6 @@ export interface Command {
   /** This will be executed when the command is run. */
   execute: (bot: BotClient, interaction: Interaction) => unknown;
 }
+
+/** Type Commands */
+export type Commands = Command[];

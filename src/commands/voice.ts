@@ -1,44 +1,56 @@
 import {
   ApplicationCommandTypes,
+  connectToVoiceChannel,
+  leaveVoiceChannel,
   InteractionResponseTypes,
 } from "../../deps.ts";
 import { createCommands } from "./mod.ts";
 
 createCommands(
   [{
-    name: "eu",
-    description: "You command!",
+    name: "connect",
+    description: "Join channel voice!",
     type: ApplicationCommandTypes.ChatInput,
     execute: async (Bot, interaction) => {
       const userId = interaction.user.id;
+
+      const guild = Bot.guilds.get(interaction.guildId!);
+      const { channelId, guildId } = guild?.voiceStates.get(userId)!;
+      await connectToVoiceChannel(Bot, guildId, channelId!);
+      
       await Bot.helpers.sendInteractionResponse(
         interaction.id,
         interaction.token,
         {
           type: InteractionResponseTypes.ChannelMessageWithSource,
           data: {
-            content: `<@${userId}> você é um cara legal! :face_holding_back_tears:`,
+            content: `Entrando...`,
           },
         }
       );
     },
-  },{
-    name: "luiz",
-    description: "Luiz command!",
+  },
+  {
+    name: "leave",
+    description: "Leave channel voice!",
     type: ApplicationCommandTypes.ChatInput,
     execute: async (Bot, interaction) => {
       const userId = interaction.user.id;
+
+      const guild = Bot.guilds.get(interaction.guildId!);
+      const { guildId } = guild?.voiceStates.get(userId)!;
+      await leaveVoiceChannel(Bot, guildId);
+
       await Bot.helpers.sendInteractionResponse(
         interaction.id,
         interaction.token,
         {
           type: InteractionResponseTypes.ChannelMessageWithSource,
           data: {
-            content: `<@144132152177459200> um cada humilde! :face_with_monocle:`,
+            content: `To saindo...`,
           },
         }
       );
     },
-  }
-  ]
+  }]
 );
