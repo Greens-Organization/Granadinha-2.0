@@ -17,7 +17,8 @@ const bot = createBot({
   token: configs.token,
   botId: configs.botId,
   intents: GatewayIntents.Guilds,
-  events: {},
+  events: {
+  },
 });
 
 // ENABLE ALL THE PLUGINS THAT WILL HELP MAKE IT EASIER TO CODE YOUR BOT

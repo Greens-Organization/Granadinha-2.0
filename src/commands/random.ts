@@ -4,8 +4,8 @@ import {
 } from "../../deps.ts";
 import { createCommands } from "./mod.ts";
 
-createCommands(
-  [{
+createCommands([
+  {
     name: "eu",
     description: "You command!",
     type: ApplicationCommandTypes.ChatInput,
@@ -22,7 +22,8 @@ createCommands(
         }
       );
     },
-  },{
+  },
+  {
     name: "luiz",
     description: "Luiz command!",
     type: ApplicationCommandTypes.ChatInput,
@@ -39,6 +40,23 @@ createCommands(
         }
       );
     },
-  }
-  ]
-);
+  },
+  {
+    name: "math",
+    description: "Math command!",
+    type: ApplicationCommandTypes.ChatInput,
+    execute: async (Bot, interaction) => {
+      const userId = interaction.user.id;
+      await Bot.helpers.sendInteractionResponse(
+        interaction.id,
+        interaction.token,
+        {
+          type: InteractionResponseTypes.ChannelMessageWithSource,
+          data: {
+            content: `<@125249534220566528> lindo!!! Gostoso!!! :drooling_face: :drooling_face: :drooling_face: :drooling_face: `,
+          },
+        }
+      );
+    },
+  },
+]);

@@ -19,6 +19,7 @@ createCommand({
         data: {
           content: `🏓 Pong! ${ping}ms`,
         },
+        
       }
     );
   },
