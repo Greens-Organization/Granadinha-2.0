@@ -1,7 +1,7 @@
-import { dotEnvConfig } from "./deps.ts";
+import { config } from "./deps.ts";
 
 // Get the .env file that the user should have created, and get the token
-const env = dotEnvConfig({ export: true, path: "./.env" });
+const env = await config({ export: true, path: "./.env" });
 const token = env.DENO_DISCORD_TOKEN || "";
 
 export interface Config {
