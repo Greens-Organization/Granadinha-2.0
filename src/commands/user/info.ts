@@ -2,23 +2,22 @@ import {
   ApplicationCommandTypes,
   ApplicationCommandOptionTypes,
   InteractionResponseTypes,
-  getUser,
   getAvatarURL,
   getRoles,
-  getMember
+  getMember,
 } from "../../../deps.ts";
-import { createCommand } from "../mod.ts";
+import { createCommands } from "../mod.ts";
 import log from "../../utils/logger.ts";
 
-createCommand(
+createCommands([
   {
     name: "getinfo",
     description: "Get information a user!",
-    type: ApplicationCommandTypes.Message,
+    type: ApplicationCommandTypes.ChatInput,
     options: [
       {
         type: ApplicationCommandOptionTypes.User,
-        name: "User",
+        name: "user",
         description: "Choose user to get your information",
       },
     ],
@@ -28,29 +27,29 @@ createCommand(
       const guildId = interaction.guildId;
       // const applicationId = interaction.applicationId;
       // const id = interaction.id;
-      const user = await getUser(Bot, userId);
-      const userMember = await getMember(Bot, guildId!, userId);
+      const data =
+        interaction.data?.options === undefined
+          ? []
+          : interaction.data?.options;
+
+      const userSearch = data[0].value as string;
+      const userMember = await getMember(Bot, guildId!, userSearch);
+
       const roles = await getRoles(Bot, guildId!);
       const roleGrn = roles.find((element) => element.name == "🎮 GRN");
 
-
       try {
         if (!userMember) {
-          throw 'User invalid!';
+          throw "User invalid!";
         }
 
-        const imgURL = getAvatarURL(
-          Bot,
-          userId,
-          userMember.user?.discriminator!,
-          {
-            avatar: user.avatar,
-            format: "png",
-            size: 4096,
-          }
-        );
-        // const resOriginal = await getOriginalInteractionResponse(Bot, interaction.token);
-        // console.log(resOriginal)
+        const user = userMember.user;
+
+        const imgURL = getAvatarURL(Bot, user?.id!, user?.discriminator!, {
+          avatar: user?.avatar,
+          format: "png",
+          size: 4096,
+        });
 
         await Bot.helpers.sendInteractionResponse(
           interaction.id,
@@ -58,6 +57,20 @@ createCommand(
           {
             type: InteractionResponseTypes.ChannelMessageWithSource,
             data: {
+              components: [
+                {
+                  type: 1,
+                  components: [
+                    {
+                      type: 2,
+                      style: 1,
+                      label: `Copy ID`,
+                      customId: `copyid`,
+                      disabled: false,
+                    },
+                  ],
+                },
+              ],
               embeds: [
                 {
                   type: "rich",
@@ -66,7 +79,8 @@ createCommand(
                   color: roleGrn?.color,
                   fields: [
                     {
-                      name: userMember.nick!,
+                      name: userMember.nick ?? user?.username!,
+
                       value: "\u200B",
                       inline: true,
                     },
@@ -97,4 +111,21 @@ createCommand(
       }
     },
   },
-);
+  {
+    name: "copyid",
+    description: "Teste!",
+    type: ApplicationCommandTypes.Message,
+    execute: async (Bot, interaction) => {
+      await Bot.helpers.sendInteractionResponse(
+        interaction.id,
+        interaction.token,
+        {
+          type: InteractionResponseTypes.ChannelMessageWithSource,
+          data: {
+            content: `Teste OK`,
+          },
+        }
+      );
+    },
+  },
+]);
