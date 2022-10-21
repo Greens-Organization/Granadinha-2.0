@@ -85,12 +85,12 @@ createCommands([
                       inline: true,
                     },
                     {
-                      name: `\`${userMember.id.toString()}\``,
+                      name: `\`ID: ${userMember.id.toString()}\``,
                       value: "\u200B",
                       inline: true,
                     },
                     {
-                      name: `\`${userMember.user?.username}#${userMember.user?.discriminator}\``,
+                      name: `\`Username: ${userMember.user?.username}#${userMember.user?.discriminator}\``,
                       value: "\u200B",
                       inline: false,
                     },
@@ -113,16 +113,17 @@ createCommands([
   },
   {
     name: "copyid",
-    description: "Teste!",
+    description: "Copy ID!",
     type: ApplicationCommandTypes.Message,
     execute: async (Bot, interaction) => {
+
       await Bot.helpers.sendInteractionResponse(
         interaction.id,
         interaction.token,
         {
           type: InteractionResponseTypes.ChannelMessageWithSource,
           data: {
-            content: `Teste OK`,
+            content: `\`${interaction.member?.id}\``,
           },
         }
       );
