@@ -1,3 +1,4 @@
+/*
 import {
   ApplicationCommandTypes,
   ApplicationCommandOptionTypes,
@@ -28,16 +29,15 @@ createCommands([
       // const applicationId = interaction.applicationId;
       // const id = interaction.id;
 
-        const data =
-          interaction.data?.options === undefined
-            ? []
-            : interaction.data?.options;
-
+      const data =
+        interaction.data?.options === undefined
+          ? []
+          : interaction.data?.options;
 
       const userSearch =
         data[0] === undefined || data[0] === null
           ? userId
-          : data[0].value as string;
+          : (data[0].value as string);
       const userMember = await getMember(Bot, guildId!, userSearch);
 
       const roles = await getRoles(Bot, guildId!);
@@ -56,14 +56,26 @@ createCommands([
           size: 4096,
         });
 
-        console.log(userMember);
-
         await Bot.helpers.sendInteractionResponse(
           interaction.id,
           interaction.token,
           {
             type: InteractionResponseTypes.ChannelMessageWithSource,
             data: {
+              components: [
+                {
+                  type: 1,
+                  components: [
+                    {
+                      type: 2,
+                      style: 1,
+                      label: `Copy ID`,
+                      customId: `copyid`,
+                      disabled: false,
+                    },
+                  ],
+                },
+              ],
               embeds: [
                 {
                   type: "rich",
@@ -84,16 +96,6 @@ createCommands([
                     },
                     {
                       name: `\`Username: ${userMember.user?.username}#${userMember.user?.discriminator}\``,
-                      value: "\u200B",
-                      inline: false,
-                    },
-                    {
-                      name: `Member since <t:${userMember.joinedAt}:F>`,
-                      value: "\u200B",
-                      inline: false,
-                    },
-                    {
-                      name: `Account created at ${userMember.joinedAt}`,
                       value: "\u200B",
                       inline: false,
                     },
@@ -133,3 +135,4 @@ createCommands([
     },
   },
 ]);
+*/
