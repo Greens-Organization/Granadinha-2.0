@@ -4,7 +4,7 @@ import {
   InteractionResponseTypes,
   getAvatarURL,
   getRoles,
-  getMember,
+  getMember
 } from "../../../deps.ts";
 import { createCommands } from "../mod.ts";
 import log from "../../utils/logger.ts";
@@ -78,17 +78,17 @@ createCommands([
                       inline: true,
                     },
                     {
-                      name: `\`ID: ${userMember.id.toString()}\``,
+                      name: `ID: \`${userMember.id.toString()}\``,
                       value: "\u200B",
                       inline: true,
                     },
                     {
-                      name: `\`Username: ${userMember.user?.username}#${userMember.user?.discriminator}\``,
+                      name: `Username: \`${userMember.user?.username}#${userMember.user?.discriminator}\``,
                       value: "\u200B",
                       inline: false,
                     },
                     {
-                      name: `Member since <t:${userMember.joinedAt}:F>`,
+                      name: `Member since <t:${userMember.joinedAt}>`,
                       value: "\u200B",
                       inline: false,
                     },
@@ -133,3 +133,7 @@ createCommands([
     },
   },
 ]);
+
+function moment(joinedAt: number) {
+throw new Error("Function not implemented.");
+}
